@@ -1,7 +1,9 @@
 NAME = fractol
 FRACTOL_OBJ_FILES = $(BUILD_DIR)/main.o\
 					$(BUILD_DIR)/param_handle.o\
-					$(BUILD_DIR)/hooks.o
+					$(BUILD_DIR)/hooks.o\
+					$(BUILD_DIR)/julia.o\
+					$(BUILD_DIR)/mandelbrot.o
 BUILD_DIR = build
 VPATH = srcs/libft:srcs/fractol
 HEADER_FILES = includes/fractol.h
