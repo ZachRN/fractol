@@ -23,7 +23,7 @@ int julia_set(void)
     return (0);
 }
 
-int color_find(t_screen *screen, t_pixel *pixel)
+int color_find(t_vars *vars, t_pixel *pixel)
 {
     int iteration;
     int max_iteration;
@@ -33,7 +33,7 @@ int color_find(t_screen *screen, t_pixel *pixel)
 
     iteration = 0;
     max_iteration = 1000;
-    while ((pixel->zx * pixel->zx) + (pixel->zy * pixel->zy) < (screen->r * screen->r)
+    while ((pixel->zx * pixel->zx) + (pixel->zy * pixel->zy) < (vars->r * vars->r)
          && iteration < max_iteration)
     {
         xtemp = pixel->zx * pixel->zx - pixel->zy * pixel->zy;
@@ -49,7 +49,7 @@ int color_find(t_screen *screen, t_pixel *pixel)
     
 }
 
-void temp_name(t_screen *screen, t_vars *vars)
+void temp_name(t_vars *vars)
 {
     t_pixel pixel;
     int ret;
@@ -58,16 +58,16 @@ void temp_name(t_screen *screen, t_vars *vars)
     img.img = mlx_new_image(vars->mlx, 1280, 720);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
     pixel.x = 0;
-    while (pixel.x < screen->max_x)
+    while (pixel.x < vars->max_x)
     {
         pixel.y = 0;
-        while (pixel.y < screen->max_y)
+        while (pixel.y < vars->max_y)
         {
-            pixel.zx = (screen->r * -1) + (((pixel.x - 0) * 
-                (screen->r - (screen->r * -1)))/(screen->max_x - 0));
-            pixel.zy = (screen->r * -1) + (((pixel.y - 0) * 
-                (screen->r - (screen->r * -1)))/(screen->max_y - 0));
-            ret = color_find(screen, &pixel);
+            pixel.zx = (vars->r * -1) + (((pixel.x - 0) * 
+                (vars->r - (vars->r * -1)))/(vars->max_x - 0));
+            pixel.zy = (vars->r * -1) + (((pixel.y - 0) * 
+                (vars->r - (vars->r * -1)))/(vars->max_y - 0));
+            ret = color_find(vars, &pixel);
             if (ret == 0)
                 my_mlx_pixel_put(&img, pixel.x, pixel.y, 0x0000FF00);
             else

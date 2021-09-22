@@ -33,14 +33,13 @@ int	fractol_atoi(char *str, int *numInput)
 
 void    mandelbrot_verification(int argc, char *argv[])
 {
-    t_screen w_size;
     int error;
     t_vars vars;
 
     if (argc == 2)
     {
-        w_size.max_y = 1080;
-        w_size.max_x = 1920;
+        vars.max_y = 1080;
+        vars.max_x = 1920;
     }
     else if (argc == 3)
     {
@@ -49,18 +48,18 @@ void    mandelbrot_verification(int argc, char *argv[])
     }
     else if (argc == 4)
     {
-        error = fractol_atoi(argv[2], &w_size.max_x);
+        error = fractol_atoi(argv[2], &vars.max_x);
         if (error == -1)
             return;
-        error = fractol_atoi(argv[3], &w_size.max_y);
+        error = fractol_atoi(argv[3], &vars.max_y);
         if (error == -1)
             return;
     }
     vars.zoom = 1;
     vars.mlx = mlx_init();
-    vars.win = mlx_new_window(vars.mlx, w_size.max_x,
-        w_size.max_y, "Mandelbrot");
-    mandelbrot_set(&w_size, &vars);
+    vars.win = mlx_new_window(vars.mlx, vars.max_x,
+        vars.max_y, "Mandelbrot");
+    mandelbrot_set(&vars);
 }
 
 void param_invalid()
