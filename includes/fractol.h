@@ -10,6 +10,14 @@
 
 # define Key_ESC 53
 # define Key_SPACE 49
+# define Key_W 13
+# define Key_A 0
+# define Key_S 1
+# define Key_D 2
+# define Key_Q 12
+# define Key_E 14
+# define Key_Z 6
+# define Key_X 7
 
 # define M_Wheel_Up 5
 # define M_Wheel_Down 4
@@ -37,6 +45,12 @@ typedef struct  s_vars{
     int     max_y;
     float   r;
     int     *array;
+    float   xre_min;
+    float   xre_max;
+    float   yre_min;
+    float   yre_max;
+    float   zoom_amt;
+    float   zoom_modifier;
 }               t_vars;
 
 typedef struct  s_pixel{
@@ -64,4 +78,5 @@ int testing_loop(t_vars *vars);
 void mandelbrot_display(t_vars *vars, int color);
 void mandelbrot_calculate(t_vars *vars, int color);
 void mandelbrot_zoom(t_vars *vars,int x, int y);
+void    mandelbrot_translate(t_vars *vars);
 #endif  

@@ -5,14 +5,58 @@ int key_hook(int keycode, t_vars *vars)
 {
     if (keycode == Key_ESC)
         kill_program(vars);
-    else if (keycode == Key_SPACE)
+    // else if (keycode == Key_SPACE)
+    // {
+    //     if (vars->color == 0)
+    //         vars->color = 1;
+    //     else
+    //         vars->color = 0;
+    // }
+    else if (keycode == Key_W)
     {
-        if (vars->color == 0)
-            vars->color = 1;
-        else
-            vars->color = 0;
-        // mandelbrot_display(vars, vars->color);
+        vars->yre_min -= vars->zoom_amt/vars->zoom;
+        vars->yre_max -= vars->zoom_amt/vars->zoom;
     }
+    else if (keycode == Key_S)
+    {
+        vars->yre_min += vars->zoom_amt/vars->zoom;
+        vars->yre_max += vars->zoom_amt/vars->zoom;
+    }
+    else if (keycode == Key_A)
+    {
+        vars->xre_min -= vars->zoom_amt/vars->zoom;
+        vars->xre_max -= vars->zoom_amt/vars->zoom;
+    }
+    else if (keycode == Key_D)
+    {
+        vars->xre_min += vars->zoom_amt/vars->zoom;
+        vars->xre_max += vars->zoom_amt/vars->zoom;
+    }
+    else if (keycode == Key_E)
+        vars->zoom_amt /= 1.1;
+    else if (keycode == Key_Q)
+        vars->zoom_amt *= 1.1;
+    else if (keycode == Key_Z)
+    {
+        vars->zoom *= vars->zoom_modifier;
+        vars->xre_min *= vars->zoom;
+        vars->xre_max *= vars->zoom;
+        vars->yre_max *= vars->zoom;
+        vars->yre_min *= vars->zoom;
+        mandelbrot_translate(vars);
+        return(0);
+    }
+    else if (keycode == Key_X)
+    {
+        vars->zoom /= vars->zoom_modifier;
+        vars->xre_min *= vars->zoom;
+        vars->xre_max *= vars->zoom;
+        vars->yre_max *= vars->zoom;
+        vars->yre_min *= vars->zoom;
+        mandelbrot_translate(vars);
+        return(0);
+    }
+    mandelbrot_translate(vars);
     return (0);
    //mlx_destroy_window(vars->mlx, vars->win);
 }
@@ -23,24 +67,24 @@ int mouse_hook(int mousecode,int x, int y, t_vars *vars)
     printf("x is %d || y is %d\n", x, y);
     if (mousecode == 5)
     {
-        if (vars->zoom < 2)
-            vars->zoom *= 1.25;
-        printf("%f\n", vars->zoom);
-        mandelbrot_zoom(vars, x, y);
+        vars->zoom *= vars->zoom_modifier;
+        vars->xre_min *= vars->zoom;
+        vars->xre_max *= vars->zoom;
+        vars->yre_max *= vars->zoom;
+        vars->yre_min *= vars->zoom;
+        mandelbrot_translate(vars);
         return(0);
     }
     else if (mousecode == 4)
     {
-        vars->zoom /= 1.25;
-        printf("%f\n", vars->zoom);
-        mandelbrot_zoom(vars, x, y);
+        vars->zoom /= vars->zoom_modifier;
+        vars->xre_min *= vars->zoom;
+        vars->xre_max *= vars->zoom;
+        vars->yre_max *= vars->zoom;
+        vars->yre_min *= vars->zoom;
+        mandelbrot_translate(vars);
         return(0);
     }
-    // else if (mousecode == 4)
-    // {
-    //     vars->zoom -= 1;
-    //     printf("New zoom is: %f\n", vars->zoom);
-    // }
     return (0);
 }
 

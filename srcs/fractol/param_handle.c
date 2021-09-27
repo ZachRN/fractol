@@ -55,7 +55,6 @@ void    mandelbrot_verification(int argc, char *argv[])
         if (error == -1)
             return;
     }
-    vars.zoom = 1;
     vars.mlx = mlx_init();
     vars.win = mlx_new_window(vars.mlx, vars.max_x,
         vars.max_y, "Mandelbrot");
