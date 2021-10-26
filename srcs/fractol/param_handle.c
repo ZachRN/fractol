@@ -13,8 +13,7 @@ int	fractol_atoi(char *str, int *numInput)
 	value = 0;
 	if (str[i] == '-')
 	{
-		sign = -1;
-		i = 1;
+		return (-1);
 	}
 	if (!(str[i] >= '0' && str[i] <= '9'))
 		return (-1);
@@ -31,19 +30,50 @@ int	fractol_atoi(char *str, int *numInput)
 	return (1);
 }
 
-void    mandelbrot_verification(int argc, char *argv[])
+void    julia_verification(int argc, char *argv[])
 {
     int error;
-    t_vars vars;
+    t_julia vars;
 
     if (argc == 2)
     {
-        vars.max_y = 1080;
-        vars.max_x = 1920;
+        vars.max_y = 600;
+        vars.max_x = 800;
     }
     else if (argc == 3)
     {
-        printf("Error missing width or height");
+        printf("Error missing width or height\n");
+        return;
+    }
+    else if (argc == 4)
+    {
+        error = fractol_atoi(argv[2], &vars.max_x);
+        if (error == -1)
+            return;
+        error = fractol_atoi(argv[3], &vars.max_y);
+        if (error == -1)
+            return;
+    }
+    vars.mlx = mlx_init();
+    vars.win = mlx_new_window(vars.mlx, vars.max_x,
+        vars.max_y, "Julia");
+	julia_set(&vars);
+
+}
+
+void    mandelbrot_verification(int argc, char *argv[])
+{
+    int error;
+    t_mand vars;
+
+    if (argc == 2)
+    {
+        vars.max_y = 600;
+        vars.max_x = 800;
+    }
+    else if (argc == 3)
+    {
+        printf("Error missing width or height\n");
         return;
     }
     else if (argc == 4)

@@ -1,39 +1,23 @@
 #include "fractol.h"
 #include <mlx.h>
 #include <stdio.h>
-
-
-// void iteration_paint(int x, int y, t_data *img, int cycle)
-// {
-//     if (cycle == 1000)
-//         my_mlx_pixel_put(img, x, y, 0x00000000);
-//     else if (cycle > 40)
-//         my_mlx_pixel_put(img, x, y, 0x00F4C931);
-//     else if (cycle > 20)
-//         my_mlx_pixel_put(img, x, y, 0x00ED4E3F);
-//     else if (cycle > 10)
-//         my_mlx_pixel_put(img, x, y, 0x00A41000);
-//     else if (cycle > 5)
-//         my_mlx_pixel_put(img, x, y, 0x007E0000);
-//     else if (cycle > 3)
-//         my_mlx_pixel_put(img, x, y, 0x005E0000);
-//     else
-//         my_mlx_pixel_put(img, x, y, 0x004D0000);
-// }
+#include <math.h>
 
 int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void    iteration_paint(int x, int y, t_data *img, int cycle)
+void    iteration_paint(t_pixel *pixel, t_data *img, int cycle, int max)
 {
     int i;
-    // void array[16];
-    // array[0] = my_mlx_pixel_put(img, x, y, create_trgb(0,66, 30, 15));
-    // return array[i];
+    int x;
+    int y;
+
+    x = pixel->truex;
+    y = pixel->truey;
     i = cycle % 16;
-    if (cycle < 1000 && cycle > 0)
+    if (cycle < max && cycle > 0)
     {
         if (i == 0)
             return (my_mlx_pixel_put(img, x, y, create_trgb(0,66, 30, 15)));
@@ -71,39 +55,26 @@ void    iteration_paint(int x, int y, t_data *img, int cycle)
     return (my_mlx_pixel_put(img, x, y, 0x00000000));
 }
 
+/*
+Welcome to drawing the mandelbrot set,
 
-// void iteration_paint(int x, int y, t_data *img, int cycle)
-// {
-//     int color;
+It is passed a pixel coordinate which is scaled to lie within the scaled plane
+it then follows a set alogrithm in order to decide if the pixel will reach
+the escape before a certain iterations. The iterations go up as
+you begin to zoom in
+*/
 
-//     if (cycle == 1000)
-//         color = create_trgb(0,0,0,0);
-//     else if (cycle/256 == 1)
-//         color = create_trgb(0,(255-(cycle%256)),255,0);
-//     else 
-//         color = create_trgb(0,255,(cycle%256),0);
-//     my_mlx_pixel_put(img, x, y, color); 
-// }
-
-int mandelbrot_plot(t_vars *vars, t_pixel *pixel)
+int mandelbrot_plot(t_mand *vars, t_pixel *pixel)
 {
-   // float c_re = (pixel->x - vars->xre_max/2) / vars->xre_max;
-    //float c_im = (pixel->y - vars->yre_max/2) / vars->yre_max;
-    float x;
-    float y;
-    float x_new;
+    long double x;
+    long double y;	
+    long double x_new;
     int cycle;
-    // float re_start = -2;
-    // float re_end = 1;
-    // float im_start = -1;
-    // float im_end = 1;
-    //float c_re = (re_start + (pixel->x / vars->max_x) * (re_end - re_start));
-    //float c_im = (re_start + (pixel->y/vars->max_y) * (im_end - im_start));
 
     x = 0;
     y = 0;
     cycle = 0;
-    while (x * x + y * y <= 4 && cycle < 1000)
+    while (x * x + y * y <= 4 && cycle < vars->cycle)
     {
         x_new = x * x - y * y + pixel->x;
         y = 2 * x * y + pixel->y;
@@ -113,40 +84,23 @@ int mandelbrot_plot(t_vars *vars, t_pixel *pixel)
     return (cycle);
 }
 
-void    mandelbrot_zoom(t_vars *vars, int mouse_x, int mouse_y)
+/*
+Drawing the mandelbrot is fairly simple except for some weird math equation
+that took forever to figure out
+
+We start by definign the image for minilibx.
+
+We take each pixel of the window, and then scale the X and Y individiually
+to their respective axis scale. Using a scaling formula I found online somewhere
+We then pass the original X and Y coordinates of the pixel, the return value
+of the mandelbrot algorithm
+*/
+void mandelbrot_draw(t_mand *vars)
 {
-    int ret;
     t_pixel pixel;
     t_data img;
-    int x;
-    int y;
-    
-    img.img = mlx_new_image(vars->mlx, vars->max_x, vars->max_y);
-    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
-         &img.line_length, &img.endian);
-
-    y = 0;
-    while (y < vars->max_y)
-    {
-        x = 0;
-        while (x < vars->max_x)
-        {
-            ret = mandelbrot_plot(vars, &pixel);
-            iteration_paint(x, y, &img, ret);
-            x++;
-        }
-        y++;
-    }
-    mlx_put_image_to_window(vars->mlx, vars->win, img.img, 0, 0);
-}
-
-void    mandelbrot_translate(t_vars *vars)
-{
-    int ret;
-    t_pixel pixel;
-    t_data img;
-    float x;
-    float y;
+    long double x;
+    long double y;
 
     img.img = mlx_new_image(vars->mlx, vars->max_x, vars->max_y);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
@@ -157,19 +111,85 @@ void    mandelbrot_translate(t_vars *vars)
         x = 0;
         while (x < vars->max_x)
         {
+            pixel.truex = x;
+            pixel.truey = y;
             pixel.x = ((vars->xre_max - vars->xre_min) * ((x - 0)/(vars->max_x - 0))) + vars->xre_min;
-            //printf("pixel x scaled:%f || pixel y scaled:%f\n", pixel.x, pixel.y);
-            ret = mandelbrot_plot(vars, &pixel);
-            iteration_paint(x , y, &img, ret);
+            iteration_paint(&pixel, &img, mandelbrot_plot(vars, &pixel), vars->cycle);
             x++;
         }
         y++;
     }
+    printf("x max: %.100Lf\nx min: %.100Lf\ny max: %.100Lf\ny min: %.100Lf\n",vars->xre_max,vars->xre_min,vars->yre_max,vars->yre_min);
     mlx_put_image_to_window(vars->mlx, vars->win, img.img, 0, 0);
 }
+/*
+Welcome to deciding how to Zoom in, the math explaind in a nicer way
 
-void    vars_initalize(t_vars *vars)
+We will start with the percent variable, it stores how far along, the mouse x
+coordinate is, across the window when you zoom so, for example 200/800 is 25%
+
+Then for sub_total it takes the scale of the imaginary axis, lets say it is base
+mandelbrot set of -2.00 to 2.00, sub_total then will be 4
+The X max of 2 will then shave off 75% of the pixels for the zoom, and the min
+will shave off only 25% of pixels, resulting in a zoom centered on the mouse
+location.
+
+This is repeated for both X and Y.
+*/
+void    mandelbrot_zoom_in(t_mand *vars, int mouse_x, int mouse_y)
 {
+    long double percent;
+    long double sub_total;
+    long double zoomtwo;
+
+    zoomtwo = vars->zoom;
+    if (zoomtwo > 1)
+        zoomtwo = .8;
+    percent = (long double)mouse_x/(long double)vars->max_x;
+    sub_total = (vars->xre_max - vars->xre_min);
+    vars->xre_min += (sub_total - (sub_total * zoomtwo)) * percent;
+    vars->xre_max -= (sub_total - (sub_total * zoomtwo)) * (1.0 - percent);
+
+    percent = ((long double)vars->max_y - (long double)mouse_y)/(long double)vars->max_y;
+    sub_total = (vars->yre_max - vars->yre_min);
+    vars->yre_min += (sub_total - (sub_total * zoomtwo)) * percent;
+    vars->yre_max -= (sub_total - (sub_total * zoomtwo)) * (1.0 - percent);
+
+    mandelbrot_draw(vars);
+}
+
+/*
+Zooming out works just a tad different from Zoom in,
+The Equation used to calcualte the pixels to add, takes the 
+Sub_total multiplied by 1.25 to the power of how many zooms deep,
+*/
+void    mandelbrot_zoom_out(t_mand *vars, int mouse_x, int mouse_y)
+{
+    long double percent;
+    long double sub_total;
+
+    percent = (long double)mouse_x/(long double)vars->max_x;
+    sub_total = (vars->xre_max - vars->xre_min);
+    vars->xre_min -= ((sub_total * pow(1.25,vars->zoom_amt)) - sub_total) * percent;
+    vars->xre_max += ((sub_total * pow(1.25,vars->zoom_amt)) - sub_total) * (1.0 - percent);
+
+    percent = ((long double)vars->max_y - (long double)mouse_y)/(long double)vars->max_y;
+    sub_total = (vars->yre_max - vars->yre_min);
+    vars->yre_min -= ((sub_total * pow(1.25,vars->zoom_amt)) - sub_total) * percent;
+    vars->yre_max += ((sub_total * pow(1.25,vars->zoom_amt)) - sub_total) * (1.0 - percent);
+
+    mandelbrot_draw(vars);
+}
+
+void    vars_initalize(t_mand *vars)
+{
+
+    //ESTIMATED MANDELBROT COORDS
+    // vars->xre_min = -2.00;
+    // vars->xre_max = 2.00;
+    // vars->yre_max = 1.5;
+    // vars->yre_min = -1.5;
+
     //BASE MANDELBROT COORDS
     vars->xre_min = -2.00;
     vars->xre_max = .47;
@@ -183,47 +203,18 @@ void    vars_initalize(t_vars *vars)
     // vars->yre_min = 0.031752;
 
     vars->zoom = 1;
-    vars->zoom_amt = .2;
-    vars->zoom_modifier = 1.25;
+    vars->zoom_amt = 1;
+    vars->cycle = 100;
 }
 
-void    mandelbrot_set(t_vars *vars)
+void    mandelbrot_set(t_mand *vars)
 {
-    int ret;
-    t_pixel pixel;
-    t_data img;
-    float x;
-    float y;
 
-    img.img = mlx_new_image(vars->mlx, vars->max_x, vars->max_y);
-    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    // vars->xre_min = -1.00;
-    // vars->xre_max = .2;
-    // vars->yre_max = .6;
-    // vars->yre_min = -.6;
     vars_initalize(vars);
+    mandelbrot_draw(vars);
 
-    y = 0;
-    while (y < vars->max_y)
-    {
-        pixel.y = ((vars->yre_max - vars->yre_min) * ((y - 0)/(vars->max_y - 0))) + vars->yre_min;
-        x = 0;
-        while (x < vars->max_x)
-        {
-            pixel.x = ((vars->xre_max - vars->xre_min) * ((x - 0)/(vars->max_x - 0))) + vars->xre_min;
-            //printf("pixel x scaled:%f || pixel y scaled:%f\n", pixel.x, pixel.y);
-            ret = mandelbrot_plot(vars, &pixel);
-            iteration_paint(x , y, &img, ret);
-            x++;
-        }
-        y++;
-    }
-    mlx_put_image_to_window(vars->mlx, vars->win, img.img, 0, 0);
-    mlx_key_hook(vars->win, key_hook, vars);
-    mlx_mouse_hook(vars->win, mouse_hook, vars);
-    //mlx_hook(vars->win, 6, 1L<<6, focus_in_test, vars);
-    mlx_hook(vars->win, 17, 1L<<17, x_close_program, vars);
-    // mlx_loop_hook(vars->win, testing_loop, vars);
-    //mlx_hook(vars->win, 8, 1L<<5, focus_out_test, vars);
+    mlx_key_hook(vars->win, mand_key_hook, vars);
+    mlx_mouse_hook(vars->win, mand_mouse_hook, vars);
+    mlx_hook(vars->win, 17, 1L<<17, mand_x_close_program, vars);
     mlx_loop(vars->mlx);
 }

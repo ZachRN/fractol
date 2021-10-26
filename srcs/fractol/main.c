@@ -17,7 +17,9 @@ int main(int argc, char *argv[])
         //     temp_name(&screen, &vars);
         if (ft_strncmp(argv[1], "Mandelbrot", 10) == 0)
             mandelbrot_verification(argc, argv);
-        else
+        else if (ft_strncmp(argv[1], "Julia", 5) == 0)
+			julia_verification(argc, argv);
+		else
         {
             param_invalid();
             return(0);
