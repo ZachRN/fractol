@@ -17,6 +17,11 @@ int julia_key_hook(int keycode, t_julia *vars)
 		vars->cycle += 1;
 	else if (keycode == Key_R)
 		vars->cycle -= 1;
+	else if (keycode == Key_X)
+		vars->cycle = 1000;
+	else if (keycode == Key_Z)
+		vars->cycle = 10;
+
 	julia_translate(keycode, vars);
 	julia_draw(vars);
 	return(0);
@@ -89,9 +94,11 @@ int julia_mouse_hook(int mousecode,int x, int y, t_julia *vars)
 		if (vars->zoom_amt == 20)
 			return(0);
         vars->zoom *= .8;
-        vars->cycle += 10;
         if (vars->zoom < 1)
-            vars->zoom_amt +=1;
+		{
+        	vars->cycle += 10;
+			vars->zoom_amt +=1;
+		}
 		julia_zoom_in(vars, x, y);
 		return(0);
 	}

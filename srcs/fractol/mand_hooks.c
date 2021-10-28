@@ -64,9 +64,11 @@ int mand_mouse_hook(int mousecode,int x, int y, t_mand *vars)
 		if (vars->zoom_amt == 20)
 			return(0);
         vars->zoom *= .8;
-        vars->cycle += 100;
         if (vars->zoom < 1)
-            vars->zoom_amt +=1;
+        {
+        	vars->cycle += 100;
+			vars->zoom_amt +=1;
+		}   
         mandelbrot_zoom_in(vars, x, y);
         // mandelbrot_zoom_in(vars, x, y);
         printf("zoom:%.25Lf\n",vars->zoom);

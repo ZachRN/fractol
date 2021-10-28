@@ -12,8 +12,8 @@ void julia_initalize(t_julia *vars)
     vars->xre_max = 1.5;
     vars->yre_max = 1.5;
  	vars->yre_min = -1.5;
-	vars->realx = -0.7;
-	vars->imagy = 0.27015;
+	vars->realx = -0.7600;
+	vars->imagy = -0.0900;
 	vars->zoom = 1;
 }
 
