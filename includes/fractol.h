@@ -5,8 +5,6 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "get_next_line.h"
-# include "libft.h"
 
 # define Key_ESC 53
 # define Key_SPACE 49
@@ -23,7 +21,6 @@
 # define Key_E 14
 # define Key_Z 6
 # define Key_X 7
-
 # define M_Wheel_Up 5
 # define M_Wheel_Down 4
 
@@ -34,12 +31,6 @@ typedef struct s_data {
     int line_length;
     int endian;
 }              t_data;
-
-// typedef struct s_screen{
-//     int     max_x;
-//     int     max_y;
-//     long double   r;
-// }               t_screen;
 
 typedef struct  s_mand{
     void    *mlx;
@@ -80,8 +71,6 @@ typedef struct  s_pixel{
 	int truex;
 	int truey;
 }               t_pixel;
-
-
 /* Mandelbrot Functions */
 /* Verificaton & Initilization */
 void    mandelbrot_verification(int argc, char *argv[]);
@@ -94,12 +83,8 @@ void    mandelbrot_zoom_out(t_mand *vars, int mouse_x, int mouse_y);
 /*Zooms and Plotting*/
 void mandelbrot_zoom_in(t_mand *vars,int x, int y);
 void mandelbrot_zoom_in(t_mand *vars,int x, int y);
-void mandelbrot_draw(t_mand *vars);
-int mandelbrot_plot(t_mand *vars, t_pixel *pixel);
 /* Color Decision*/
 void    iteration_paint(t_pixel *pixel, t_data *img, int cycle, int max);
-
-void    param_invalid();
 void    my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	julia_set(t_julia *vars);
 void julia_draw(t_julia *vars);
@@ -119,4 +104,30 @@ void    julia_zoom_out(t_julia *vars, int mouse_x, int mouse_y);
 void    julia_zoom_in(t_julia *vars, int mouse_x, int mouse_y);
 void mand_translate(int keycode, t_mand *vars);
 void julia_translate(int keycode, t_julia *vars);
+int	ft_strncmp(const char *s1, const char *s2, size_t len);
+//void gradient_test(t_mand *vars);
+int	fractol_atoi(char *str, int *numInput);
+
+/*
+Welcome to drawing the mandelbrot set,
+
+It is passed a pixel coordinate which is scaled to lie within the scaled plane
+it then follows a set alogrithm in order to decide if the pixel will reach
+the escape before a certain iterations. The iterations go up as
+you begin to zoom in
+*/
+int	mandelbrot_plot(t_mand *vars, t_pixel *pixel);
+
+/*
+Drawing the mandelbrot is fairly simple except for some weird math equation
+that took forever to figure out
+
+We start by definign the image for minilibx.
+
+We take each pixel of the window, and then scale the X and Y individiually
+to their respective axis scale. Using a scaling formula I found online somewhere
+We then pass the original X and Y coordinates of the pixel, the return value
+of the mandelbrot algorithm
+*/
+void	mandelbrot_draw(t_mand *vars);
 #endif  

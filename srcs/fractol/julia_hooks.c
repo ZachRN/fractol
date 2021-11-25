@@ -79,7 +79,7 @@ int julia_mouse_move(int x, int y, t_julia *vars)
 	{
 		y = vars->max_y - y;
 		vars->realx = ((1.0 - -1.0) * ((x - 0)/((long double)vars->max_x - 0.0))) + -1.0;
-		vars->imagy = ((1.0 - -1.0) * ((y - 0)/((long double)vars->max_y - 0.0))) + -.01;
+		vars->imagy = ((1.0 - -1.0) * ((y - 0)/((long double)vars->max_y - 0.0))) + -1.0;
 		julia_draw(vars);
 	}
 	return (0);

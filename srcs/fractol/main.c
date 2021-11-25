@@ -1,55 +1,44 @@
 #include "fractol.h"
 #include <mlx.h>    
 
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	param_invalid(void)
 {
-    char *dst;
-
-    dst = data->addr + (y *data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
+	printf("Two fractal's are available for this program\n");
+	printf("\"./fractal Julia\" || \"./fractal Mandelbrot\"\n");
+	printf("Below is how to edit the parameters of each available fractal\n\n");
+	printf("-----------Julia-----------\n\n");
+	printf("For the Julia you may enter any combination of the 4 parameters\n");
+	printf("./fractal Julia [width] [height] [r] [c]\n");
+	printf("as an example: ./fractal Julia w300 h300 r120 c210\n");
+	printf("and another: ./fractal Julia h650 r320\n");
+	printf("r must be between 0 and entered width (800 by default)\n");
+	printf("c must be between 0 and entered height (600 by default)\n");
+	printf("Any parameters that do not begin with any of the following ");
+	printf("\"w h r c\" will be ignored\n");
+	printf("Entering a parameter twice will only take the last one\n\n");
+	printf("-----------Mandelbrot-----------\n\n");
+	printf("For the Mandelbrot you may enter ");
+	printf("neither, either, or both of the available parameters\n");
+	printf("./fractal Mandelbrot [width] [height]\n");
+	printf("as an example: ./fractal Mandelbrot w650 h650\n");
+	printf("Width and Height are default to 800 and 600 respectively\n");
+	printf("Any parameters that do not begin with any of the following ");
+	printf("\"w h\" will be ignored\n");
+	printf("Entering a parameter twice will only take the last one\n\n");
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-    if (argc > 1)
-    {
-        // if (ft_strncmp(str, "Julia", 6) == 0)
-        //     temp_name(&screen, &vars);
-        if (ft_strncmp(argv[1], "Mandelbrot", 10) == 0)
-            mandelbrot_verification(argc, argv);
-        else if (ft_strncmp(argv[1], "Julia", 5) == 0)
+	if (argc > 1)
+	{
+		if (ft_strncmp(argv[1], "Mandelbrot", 10) == 0)
+			mandelbrot_verification(argc, argv);
+		else if (ft_strncmp(argv[1], "Julia", 5) == 0)
 			julia_verification(argc, argv);
 		else
-        {
-            param_invalid();
-            return(0);
-        }   
-    }
-    else
-    {
-        param_invalid();
-        return(0);
-    }
-    // x = 0;
-    // y = 0;
-    
-    // img.img = mlx_new_image(vars.mlx, 1280, 720);
-    // img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    // // while (x < 1280)
-    // // {
-    // //     my_mlx_pixel_put(&img, x, 360, 0x00FF0000);
-    // //     x++;
-    // // }
-    // // while (y < 720)
-    // // {
-    // //     my_mlx_pixel_put(&img, 640, y, 0x00FF0000);
-    // //     y++;
-    // // }
-    // mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-    // mlx_key_hook(vars.win, key_hook, &vars);
-    // mlx_mouse_hook(vars.win, mouse_hook, &vars);
-    // // mlx_hook(vars.win, 2, 1L<<0, close_win, &vars);
-
-    // mlx_loop(vars.mlx);
-    
+			param_invalid();
+	}
+	else
+		param_invalid();
+	return (0);
 }
