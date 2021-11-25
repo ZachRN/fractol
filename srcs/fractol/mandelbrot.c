@@ -45,7 +45,7 @@ of the mandelbrot algorithm
 static void	mandelbrot_sub_draw(t_data *img, t_pixel *pixel, t_mand *vars)
 {
 	pixel->x = ((vars->xre_max - vars->xre_min)
-			 * ((pixel->truex - 0) / (vars->max_x - 0))) + vars->xre_min;
+			 * (((long double)pixel->truex - 0) / (vars->max_x - 0))) + vars->xre_min;
 	iteration_paint(pixel, img,
 		 mandelbrot_plot(vars, pixel), vars->cycle);
 }
