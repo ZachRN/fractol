@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   mand_hooks.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: znajda <znajda@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/06 15:03:51 by znajda        #+#    #+#                 */
+/*   Updated: 2022/02/12 17:33:19 by znajda        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 #include <mlx.h>
 
@@ -69,6 +81,8 @@ int	mand_mouse_hook(int mousecode, int x, int y, t_mand *vars)
 
 int	mand_x_close_program(t_mand *vars)
 {
+	if (vars)
+		vars = NULL;
 	exit(0);
 	return (0);
 }

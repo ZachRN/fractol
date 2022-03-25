@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   verify.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: znajda <znajda@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/06 15:19:39 by znajda        #+#    #+#                 */
+/*   Updated: 2022/02/06 16:36:06 by znajda        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 #include <mlx.h> 
 
-int	updateMandParam(char *str, t_mand *vars)
+static int	updatemandparam(char *str, t_mand *vars)
 {
 	int	error;
 
@@ -13,7 +25,7 @@ int	updateMandParam(char *str, t_mand *vars)
 	return (error);
 }
 
-int	updateJuliaParam(char *str, t_julia *vars)
+static int	updatejuliaparam(char *str, t_julia *vars)
 {
 	int	error;
 
@@ -38,7 +50,7 @@ void	mandelbrot_verification(int argc, char *argv[])
 	vars.max_x = 800;
 	while (argc > 2)
 	{
-		error = updateMandParam(argv[argc - 1], &vars);
+		error = updatemandparam(argv[argc - 1], &vars);
 		if (error == -1)
 			return ;
 		argc--;
@@ -49,7 +61,7 @@ void	mandelbrot_verification(int argc, char *argv[])
 	mandelbrot_set(&vars);
 }
 
-int	updateRCJulia(t_julia *vars)
+static int	updatercjulia(t_julia *vars)
 {
 	vars->realx = -0.7600;
 	vars->imagy = -0.0900;
@@ -62,10 +74,10 @@ int	updateRCJulia(t_julia *vars)
 	}
 	if (vars->cycle > 0)
 		vars->imagy = (1.5 - -1.5) * ((vars->cycle)
-				 / ((long double)vars->max_y)) + -1.5;
+				/ ((long double)vars->max_y)) + -1.5;
 	if (vars->zoom_amt > 0)
 		vars->realx = (1.5 - -1.5) * (vars->zoom_amt
-				 / ((long double)vars->max_x)) + -1.5;
+				/ ((long double)vars->max_x)) + -1.5;
 	return (1);
 }
 
@@ -80,12 +92,12 @@ void	julia_verification(int argc, char *argv[])
 	vars.zoom_amt = -1;
 	while (argc > 2)
 	{
-		error = updateJuliaParam(argv[argc - 1], &vars);
+		error = updatejuliaparam(argv[argc - 1], &vars);
 		if (error == -1)
 			return ;
 		argc--;
 	}
-	error = updateRCJulia(&vars);
+	error = updatercjulia(&vars);
 	if (error == -1)
 		return ;
 	vars.mlx = mlx_init();

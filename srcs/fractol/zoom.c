@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   zoom.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: znajda <znajda@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/06 15:34:27 by znajda        #+#    #+#                 */
+/*   Updated: 2022/02/06 15:34:52 by znajda        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 #include <mlx.h> 
 #include <math.h>
@@ -16,7 +28,7 @@ void	julia_zoom_in(t_julia *vars, int mouse_x, int mouse_y)
 	vars->xre_min += (sub_total - (sub_total * zoomtwo)) * percent;
 	vars->xre_max -= (sub_total - (sub_total * zoomtwo)) * (1.0 - percent);
 	percent = ((long double)vars->max_y
-			 - (long double)mouse_y) / (long double)vars->max_y;
+			- (long double)mouse_y) / (long double)vars->max_y;
 	sub_total = (vars->yre_max - vars->yre_min);
 	vars->yre_min += (sub_total - (sub_total * zoomtwo)) * percent;
 	vars->yre_max -= (sub_total - (sub_total * zoomtwo)) * (1.0 - percent);
@@ -31,16 +43,16 @@ void	julia_zoom_out(t_julia *vars, int mouse_x, int mouse_y)
 	percent = (long double)mouse_x / (long double)vars->max_x;
 	sub_total = (vars->xre_max - vars->xre_min);
 	vars->xre_min -= ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * percent;
+				* pow(1.25, vars->zoom_amt)) - sub_total) * percent;
 	vars->xre_max += ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
+				* pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
 	percent = ((long double)vars->max_y
-			 - (long double)mouse_y) / (long double)vars->max_y;
+			- (long double)mouse_y) / (long double)vars->max_y;
 	sub_total = (vars->yre_max - vars->yre_min);
 	vars->yre_min -= ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * percent;
+				* pow(1.25, vars->zoom_amt)) - sub_total) * percent;
 	vars->yre_max += ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
+				* pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
 	julia_draw(vars);
 }
 
@@ -92,15 +104,15 @@ void	mandelbrot_zoom_out(t_mand *vars, int mouse_x, int mouse_y)
 	percent = (long double)mouse_x / (long double)vars->max_x;
 	sub_total = (vars->xre_max - vars->xre_min);
 	vars->xre_min -= ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * percent;
+				* pow(1.25, vars->zoom_amt)) - sub_total) * percent;
 	vars->xre_max += ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
+				* pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
 	percent = ((long double)vars->max_y
 			- (long double)mouse_y) / (long double)vars->max_y;
 	sub_total = (vars->yre_max - vars->yre_min);
 	vars->yre_min -= ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * percent;
+				* pow(1.25, vars->zoom_amt)) - sub_total) * percent;
 	vars->yre_max += ((sub_total
-				 * pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
+				* pow(1.25, vars->zoom_amt)) - sub_total) * (1.0 - percent);
 	mandelbrot_draw(vars);
 }

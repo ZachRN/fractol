@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   julia.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: znajda <znajda@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/06 14:27:09 by znajda        #+#    #+#                 */
+/*   Updated: 2022/02/12 17:31:14 by znajda        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <mlx.h> 
 #include "fractol.h"
@@ -29,9 +41,9 @@ void	julia_set(t_julia *vars)
 static void	julia_draw_sub(t_data *img, t_pixel *pixel, t_julia *vars)
 {
 	pixel->y = (((vars->yre_max - vars->yre_min)
-				 * (pixel->truey / (long double)vars->max_y)) + vars->yre_min);
+				* (pixel->truey / (long double)vars->max_y)) + vars->yre_min);
 	pixel->x = (((vars->xre_max - vars->xre_min)
-				 * (pixel->truex / (long double)vars->max_x)) + vars->xre_min);
+				* (pixel->truex / (long double)vars->max_x)) + vars->xre_min);
 	iteration_paint(pixel, img, julia_plot(vars, pixel), vars->cycle);
 }
 
@@ -41,13 +53,12 @@ void	julia_draw(t_julia *vars)
 	t_data		img;
 	long double	x;
 	long double	y;
-	int			cycle;
 
 	pixel.realx = vars->realx;
 	pixel.realy = vars->imagy;
 	img.img = mlx_new_image(vars->mlx, vars->max_x, vars->max_y);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
-			 &img.line_length, &img.endian);
+			&img.line_length, &img.endian);
 	y = 0;
 	while (y < vars->max_y)
 	{
@@ -66,7 +77,6 @@ void	julia_draw(t_julia *vars)
 
 int	julia_plot(t_julia *vars, t_pixel *pixel)
 {
-	long double	x_new;
 	long double	xhold;
 	long double	yhold;
 	int			cycle;

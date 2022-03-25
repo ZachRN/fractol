@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   mandelbrot.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: znajda <znajda@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/06 14:26:41 by znajda        #+#    #+#                 */
+/*   Updated: 2022/02/12 17:32:07 by znajda        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 #include <mlx.h>
 #include <stdio.h>
@@ -45,9 +57,10 @@ of the mandelbrot algorithm
 static void	mandelbrot_sub_draw(t_data *img, t_pixel *pixel, t_mand *vars)
 {
 	pixel->x = ((vars->xre_max - vars->xre_min)
-			 * (((long double)pixel->truex - 0) / (vars->max_x - 0))) + vars->xre_min;
+			* (((long double)pixel->truex - 0)
+				/ (vars->max_x - 0))) + vars->xre_min;
 	iteration_paint(pixel, img,
-		 mandelbrot_plot(vars, pixel), vars->cycle);
+		mandelbrot_plot(vars, pixel), vars->cycle);
 }
 
 void	mandelbrot_draw(t_mand *vars)
@@ -56,16 +69,15 @@ void	mandelbrot_draw(t_mand *vars)
 	t_data		img;
 	long double	x;
 	long double	y;
-	int			cycle;
 
 	img.img = mlx_new_image(vars->mlx, vars->max_x, vars->max_y);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
-			 &img.line_length, &img.endian);
+			&img.line_length, &img.endian);
 	y = 0;
 	while (y < vars->max_y)
 	{
 		pixel.y = ((vars->yre_max - vars->yre_min)
-				 * ((y - 0) / (vars->max_y - 0))) + vars->yre_min;
+				* ((y - 0) / (vars->max_y - 0))) + vars->yre_min;
 		x = 0;
 		while (x < vars->max_x)
 		{
