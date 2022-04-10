@@ -6,7 +6,7 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 15:03:51 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/12 17:33:19 by znajda        ########   odam.nl         */
+/*   Updated: 2022/04/10 12:49:31 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	mand_key_hook(int keycode, t_mand *vars)
 {
 	if (keycode == Key_ESC)
 		mand_kill_program(vars);
+	else if (keycode == Key_SPACE)
+		printf("xre_min:%Lf\nxre_max:%Lf\nyre_min:%Lf\nyre_max:%Lf\n",
+			vars->xre_min, vars->xre_max, vars->yre_min, vars->yre_max);
 	mand_translate(keycode, vars);
 	mandelbrot_draw(vars);
 	return (0);
