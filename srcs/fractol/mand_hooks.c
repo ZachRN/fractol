@@ -6,11 +6,11 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 15:03:51 by znajda        #+#    #+#                 */
-/*   Updated: 2022/04/10 12:49:31 by znajda        ########   odam.nl         */
+/*   Updated: 2022/04/10 12:57:44 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include <fractol.h>
 #include <mlx.h>
 
 int	mand_key_hook(int keycode, t_mand *vars)

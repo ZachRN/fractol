@@ -2,7 +2,6 @@
 # define GET_NEXT_LINE_H
 
 # include <fcntl.h>
-# include "libft.h"
 
 # if BUFFER_SIZE < 0
 #  undef BUFFER_SIZE
