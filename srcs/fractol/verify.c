@@ -6,11 +6,11 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 15:19:39 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/06 16:36:06 by znajda        ########   odam.nl         */
+/*   Updated: 2022/06/01 15:44:05 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include <fractol.h>
 #include <mlx.h> 
 
 static int	updatemandparam(char *str, t_mand *vars)

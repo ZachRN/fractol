@@ -6,13 +6,12 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 14:27:09 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/12 17:31:14 by znajda        ########   odam.nl         */
+/*   Updated: 2022/06/03 16:29:19 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <mlx.h> 
-#include "fractol.h"
+#include <fractol.h>
 #include <math.h>
 
 void	julia_initalize(t_julia *vars)
@@ -73,6 +72,7 @@ void	julia_draw(t_julia *vars)
 		y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, img.img, 0, 0);
+	mlx_destroy_image(vars->mlx, img.img);
 }
 
 int	julia_plot(t_julia *vars, t_pixel *pixel)

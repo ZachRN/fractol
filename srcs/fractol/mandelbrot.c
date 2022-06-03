@@ -6,13 +6,12 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 14:26:41 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/12 17:32:07 by znajda        ########   odam.nl         */
+/*   Updated: 2022/06/03 16:29:10 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include <fractol.h>
 #include <mlx.h>
-#include <stdio.h>
 
 /*
 Welcome to drawing the mandelbrot set,
@@ -89,6 +88,7 @@ void	mandelbrot_draw(t_mand *vars)
 		y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, img.img, 0, 0);
+	mlx_destroy_image(vars->mlx, img.img);
 }
 
 static void	vars_initalize(t_mand *vars)

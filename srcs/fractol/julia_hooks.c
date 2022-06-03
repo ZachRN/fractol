@@ -6,18 +6,18 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 14:27:51 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/12 17:31:57 by znajda        ########   odam.nl         */
+/*   Updated: 2022/06/03 16:25:39 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include <fractol.h>
 #include <mlx.h>
 
 int	julia_key_hook(int keycode, t_julia *vars)
 {
-	if (keycode == Key_ESC)
+	if (keycode == KEY_ESC)
 		julia_kill_program(vars);
-	if (keycode == Key_SPACE && (float)vars->zoom == 1)
+	if (keycode == KEY_SPACE && (float)vars->zoom == 1)
 	{
 		if (vars->pause)
 			vars->pause = 0;
@@ -25,13 +25,13 @@ int	julia_key_hook(int keycode, t_julia *vars)
 			vars->pause = 1;
 		return (0);
 	}
-	else if (keycode == Key_E)
+	else if (keycode == KEY_E)
 		vars->cycle += 1;
-	else if (keycode == Key_R)
+	else if (keycode == KEY_R)
 		vars->cycle -= 1;
-	else if (keycode == Key_X)
+	else if (keycode == KEY_X)
 		vars->cycle = 1000;
-	else if (keycode == Key_Z)
+	else if (keycode == KEY_Z)
 		vars->cycle = 10;
 	julia_translate(keycode, vars);
 	julia_draw(vars);
@@ -45,22 +45,22 @@ void	julia_translate(int keycode, t_julia *vars)
 
 	sub = (vars->yre_max - vars->yre_min) * .1;
 	subtwo = (vars->xre_max - vars->xre_min) * .1;
-	if (keycode == Key_W || keycode == Key_Up)
+	if (keycode == KEY_W || keycode == KEY_UP)
 	{
 		vars->yre_min -= sub;
 		vars->yre_max -= sub;
 	}
-	else if (keycode == Key_S || keycode == Key_Down)
+	else if (keycode == KEY_S || keycode == KEY_DOWN)
 	{
 		vars->yre_min += sub;
 		vars->yre_max += sub;
 	}
-	else if (keycode == Key_A || keycode == Key_Left)
+	else if (keycode == KEY_A || keycode == KEY_LEFT)
 	{
 		vars->xre_min -= subtwo;
 		vars->xre_max -= subtwo;
 	}
-	else if (keycode == Key_D || keycode == Key_Right)
+	else if (keycode == KEY_D || keycode == KEY_RIGHT)
 	{
 		vars->xre_min += subtwo;
 		vars->xre_max += subtwo;

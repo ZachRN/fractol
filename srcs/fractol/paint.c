@@ -6,11 +6,11 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 15:08:56 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/06 15:11:07 by znajda        ########   odam.nl         */
+/*   Updated: 2022/06/01 15:43:57 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include <fractol.h>
 #include <mlx.h>
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)

@@ -6,11 +6,11 @@
 /*   By: znajda <znajda@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/06 14:47:49 by znajda        #+#    #+#                 */
-/*   Updated: 2022/02/06 14:53:14 by znajda        ########   odam.nl         */
+/*   Updated: 2022/06/01 15:43:19 by znajda        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include <fractol.h>
 #include <mlx.h>
 
 static int	mousefour(int x, int y, t_julia *vars)
