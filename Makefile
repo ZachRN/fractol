@@ -22,7 +22,8 @@ all: build_dir $(MLX_MADE) $(NAME)
 $(NAME): $(FRACTOL_OBJ_FILES)
 	@echo Assembling Fractol
 	@ make -C ./srcs/ft_printf/ > /dev/null
-	@$(CC) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $@ $^ $(CFLAGS) $(ft_printf)
+	@$(CC) -Lmlx -lmlx -framework OpenGL -framework AppKit\
+	 -o $@ $^ $(CFLAGS) $(ft_printf)
 	@echo Fractol has been made!
 
 $(BUILD_DIR)/%.o: %.c
